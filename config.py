@@ -145,6 +145,7 @@ def configure(keymap):
                             "openSUSE-42.exe",     # WSL
                             "debian.exe",          # WSL
                             "kali.exe",            # WSL
+                            "Hidemaru.exe",        # Hidemaru 安東
                             "WindowsTerminal.exe", # Windows Terminal
                             "mintty.exe",          # mintty
                             "Cmder.exe",           # Cmder
@@ -221,14 +222,15 @@ def configure(keymap):
     use_emacs_shift_mode = False
 
     # IME を切り替えるキーを指定する（複数指定可）
-    # toggle_input_method_key = ["C-Yen"]
-    toggle_input_method_key = ["C-Yen", "C-o"]
+    toggle_input_method_key = ["C-Yen"]
+    #安東 toggle_input_method_key = ["C-Yen", "C-o"]
 
     # C-iキーを Tabキーとして使うかどうかを指定する（True: 使う、False: 使わない）
     use_ctrl_i_as_tab = True
 
     # Escキーを Metaキーとして使うかどうかを指定する（True: 使う、False: 使わない）
-    use_esc_as_meta = True
+    #安東 use_esc_as_meta = True
+    use_esc_as_meta = False
 
     # Ctl-xプレフィックスキーに使うキーを指定する
     # （Ctl-xプレフィックスキーのモディファイアキーは、Ctrl または Alt のいずれかから指定してください）
@@ -253,7 +255,8 @@ def configure(keymap):
     #   Alt + 矢印キーでもウィンドウを切り替えることができます。また、A-g もしくは A-Esc で切り替え画面の
     #   終了（キャンセル）となり、Altキーを離すか A-Enter で切り替えるウィンドウの確定となります。）
     # window_switching_key = [["A-p", "A-n"]]
-    window_switching_key = None # A-S-Tab、A-Tabキーのみを利用する
+    #安東 window_switching_key = None # A-S-Tab、A-Tabキーのみを利用する
+    window_switching_key = [["A-Up", "A-Down"]]
 
     # アクティブウィンドウをディスプレイ間で移動するキーの組み合わせ（前、後 の順）を指定する（複数指定可）
     # （other_window_key に割り当てている A-o との連係した利用を想定し、A-S-o も割り当てています）
@@ -715,6 +718,9 @@ def configure(keymap):
     ## その他
     ##################################################
 
+    def insert_return(): #安東
+        self_insert_command("Enter", "Left")()
+
     def newline():
         self_insert_command("Enter")()
 
@@ -1006,6 +1012,7 @@ def configure(keymap):
     ## マルチストロークキーの設定
     define_key(keymap_emacs, "Ctl-x",         keymap.defineMultiStrokeKeymap(ctl_x_prefix_key))
     define_key(keymap_emacs, "C-q",           keymap.defineMultiStrokeKeymap("C-q"))
+#安東    define_key(keymap_emacs, "C-j",           keymap.defineMultiStrokeKeymap("C-j"))
     define_key(keymap_emacs, "C-OpenBracket", keymap.defineMultiStrokeKeymap("C-OpenBracket"))
     if use_esc_as_meta:
         define_key(keymap_emacs, "Esc", keymap.defineMultiStrokeKeymap("Esc"))
@@ -1014,7 +1021,7 @@ def configure(keymap):
     for key in range(10):
         s_key = str(key)
         define_key(keymap_emacs,        s_key, digit(key))
-        define_key(keymap_emacs, "C-" + s_key, digit2(key))
+#安東        define_key(keymap_emacs, "C-" + s_key, digit2(key))
         define_key(keymap_emacs, "M-" + s_key, digit2(key))
         define_key(keymap_emacs, "S-" + s_key, reset_undo(reset_counter(reset_mark(repeat(self_insert_command2("S-" + s_key))))))
         define_key(keymap_ime,          s_key, self_insert_command2(       s_key))
@@ -1073,7 +1080,8 @@ def configure(keymap):
         define_key(keymap_emacs, "Esc", reset_undo(reset_counter(self_insert_command("Esc"))))
 
     ## universal-argumentキーの設定
-    define_key(keymap_emacs, "C-u", universal_argument)
+#安東    define_key(keymap_emacs, "C-u", universal_argument)
+    define_key(keymap_emacs, "", universal_argument)
 
     ## 「IME の切り替え」のキー設定
     define_key(keymap_emacs, "(243)",  toggle_input_method)
@@ -1130,7 +1138,7 @@ def configure(keymap):
 
     define_key(keymap_emacs, "Back",     reset_search(reset_undo(reset_counter(reset_mark(repeat2(delete_backward_char))))))
     define_key(keymap_emacs, "Delete",   reset_search(reset_undo(reset_counter(reset_mark(repeat2(delete_char))))))
-    define_key(keymap_emacs, "C-Back",   reset_search(reset_undo(reset_counter(reset_mark(repeat3(backward_kill_word))))))
+#安東    define_key(keymap_emacs, "C-Back",   reset_search(reset_undo(reset_counter(reset_mark(repeat3(backward_kill_word))))))
     define_key(keymap_emacs, "C-Delete", reset_search(reset_undo(reset_counter(reset_mark(repeat3(kill_word))))))
     define_key(keymap_emacs, "C-c",      reset_search(reset_undo(reset_counter(reset_mark(copy)))))
     define_key(keymap_emacs, "C-v",      reset_search(reset_undo(reset_counter(reset_mark(repeat(yank)))))) # scroll_key の設定で上書きされない場合
@@ -1178,7 +1186,9 @@ def configure(keymap):
     ## 「その他」のキー設定
     define_key(keymap_emacs, "Enter",     reset_undo(reset_counter(reset_mark(repeat(newline)))))
     define_key(keymap_emacs, "C-m",       reset_undo(reset_counter(reset_mark(repeat(newline)))))
-    define_key(keymap_emacs, "C-j",       reset_undo(reset_counter(reset_mark(newline_and_indent))))
+#安東追加
+    define_key(keymap_emacs, "C-o",       reset_undo(reset_counter(reset_mark(repeat(insert_return)))))
+#安東    define_key(keymap_emacs, "C-j",       reset_undo(reset_counter(reset_mark(newline_and_indent))))
     define_key(keymap_emacs, "Tab",       reset_undo(reset_counter(reset_mark(repeat(indent_for_tab_command)))))
     define_key(keymap_emacs, "C-g",       reset_search(reset_counter(reset_mark(keyboard_quit))))
     define_key(keymap_emacs, "Ctl-x C-c", reset_search(reset_undo(reset_counter(reset_mark(kill_emacs)))))
@@ -1346,7 +1356,7 @@ def configure(keymap):
         ## 「カーソル移動」のキー設定
         define_key(keymap_ei, "C-b", ei_record_func(backward_char))
         define_key(keymap_ei, "C-f", ei_record_func(forward_char))
-        define_key(keymap_ei, "C-p", ei_record_func(previous_line))
+#安東        define_key(keymap_ei, "C-p", ei_record_func(previous_line))
         define_key(keymap_ei, "C-n", ei_record_func(next_line))
         define_key(keymap_ei, "C-a", ei_record_func(move_beginning_of_line))
         define_key(keymap_ei, "C-e", ei_record_func(move_end_of_line))
@@ -1369,6 +1379,7 @@ def configure(keymap):
         ## 「その他」のキー設定
         define_key(keymap_ei, "Enter", ei_newline)
         define_key(keymap_ei, "C-m",   ei_newline)
+        define_key(keymap_ei, "C-Enter", ei_newline) #安東
         define_key(keymap_ei, "Tab",   ei_record_func(indent_for_tab_command))
         define_key(keymap_ei, "C-g",   ei_keyboard_quit)
 
