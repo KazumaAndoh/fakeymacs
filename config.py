@@ -211,8 +211,8 @@ def configure(keymap):
     use_emacs_ime_mode = True
 
     # Emacs日本語入力モードを切り替える（トグルする）キーを指定する
-    # toggle_emacs_ime_mode_key = None
-    toggle_emacs_ime_mode_key = "C-t"
+    toggle_emacs_ime_mode_key = None
+    #安東 toggle_emacs_ime_mode_key = "C-t"
 
     # Emacs日本語入力モードが有効なときに表示するバルーンメッセージを指定する
     # emacs_ime_mode_balloon_message = None
@@ -1011,8 +1011,8 @@ def configure(keymap):
 
     ## マルチストロークキーの設定
     define_key(keymap_emacs, "Ctl-x",         keymap.defineMultiStrokeKeymap(ctl_x_prefix_key))
-    define_key(keymap_emacs, "C-q",           keymap.defineMultiStrokeKeymap("C-q"))
-#安東    define_key(keymap_emacs, "C-j",           keymap.defineMultiStrokeKeymap("C-j"))
+#安東    define_key(keymap_emacs, "C-q",           keymap.defineMultiStrokeKeymap("C-q"))
+    define_key(keymap_emacs, "C-j",           keymap.defineMultiStrokeKeymap("C-j"))
     define_key(keymap_emacs, "C-OpenBracket", keymap.defineMultiStrokeKeymap("C-OpenBracket"))
     if use_esc_as_meta:
         define_key(keymap_emacs, "Esc", keymap.defineMultiStrokeKeymap("Esc"))
@@ -1056,12 +1056,13 @@ def configure(keymap):
     ## quoted-insertキーの設定
     for vkey in vkeys():
         s_vkey = "(" + str(vkey) + ")"
-        define_key(keymap_emacs, "C-q "     + s_vkey, reset_search(reset_undo(reset_counter(reset_mark(self_insert_command(         s_vkey))))))
-        define_key(keymap_emacs, "C-q S-"   + s_vkey, reset_search(reset_undo(reset_counter(reset_mark(self_insert_command("S-"   + s_vkey))))))
-        define_key(keymap_emacs, "C-q C-"   + s_vkey, reset_search(reset_undo(reset_counter(reset_mark(self_insert_command("C-"   + s_vkey))))))
-        define_key(keymap_emacs, "C-q C-S-" + s_vkey, reset_search(reset_undo(reset_counter(reset_mark(self_insert_command("C-S-" + s_vkey))))))
-        define_key(keymap_emacs, "C-q A-"   + s_vkey, reset_search(reset_undo(reset_counter(reset_mark(self_insert_command("A-"   + s_vkey))))))
-        define_key(keymap_emacs, "C-q A-S-" + s_vkey, reset_search(reset_undo(reset_counter(reset_mark(self_insert_command("A-S-" + s_vkey))))))
+        ##安東 C-q→C-j
+        define_key(keymap_emacs, "C-j "     + s_vkey, reset_search(reset_undo(reset_counter(reset_mark(self_insert_command(         s_vkey))))))
+        define_key(keymap_emacs, "C-j S-"   + s_vkey, reset_search(reset_undo(reset_counter(reset_mark(self_insert_command("S-"   + s_vkey))))))
+        define_key(keymap_emacs, "C-j C-"   + s_vkey, reset_search(reset_undo(reset_counter(reset_mark(self_insert_command("C-"   + s_vkey))))))
+        define_key(keymap_emacs, "C-j C-S-" + s_vkey, reset_search(reset_undo(reset_counter(reset_mark(self_insert_command("C-S-" + s_vkey))))))
+        define_key(keymap_emacs, "C-j A-"   + s_vkey, reset_search(reset_undo(reset_counter(reset_mark(self_insert_command("A-"   + s_vkey))))))
+        define_key(keymap_emacs, "C-j A-S-" + s_vkey, reset_search(reset_undo(reset_counter(reset_mark(self_insert_command("A-S-" + s_vkey))))))
 
     ## C-S-[a-z] -> C-[a-z]、A-S-[a-z] -> A-[a-z] の置き換え設定（Emacsシフトモードの設定）
     if use_emacs_shift_mode:
