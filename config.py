@@ -265,8 +265,8 @@ def configure(keymap):
     window_movement_key = [["A-S-b", "A-S-f"], ["A-S-Left", "A-S-Right"], [None, "A-S-o"]] # Multi-display
 
     # ウィンドウを最小化、リストアするキーの組み合わせ（リストア、最小化 の順）を指定する（複数指定可）
-    # window_minimize_key = None
-    window_minimize_key = [["A-r", "A-m"]]
+    window_minimize_key = None
+    #安東 window_minimize_key = [["A-r", "A-m"]]
 
     # 仮想デスクトップを切り替えるキーの組み合わせ（前、後 の順）を指定する（複数指定可）
     # （デフォルトキーは、["W-C-Left", "W-C-Right"]）
